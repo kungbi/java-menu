@@ -52,9 +52,9 @@ public class DailyMenu {
             throw new IllegalStateException("없는 코치 입니다");
         }
         if (dailyMenu.get(coach).size() != 5) {
-            throw new IllegalStateException("모는 날에 대한 메뉴가 추가되지 않았습니다");
+            throw new IllegalStateException("모든 날에 대한 메뉴가 추가되지 않았습니다");
         }
 
-        return dailyMenu.get(coach);
+        return Map.copyOf(dailyMenu.get(coach));
     }
 }

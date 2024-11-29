@@ -13,8 +13,8 @@ class dailyMenuTest {
     @BeforeEach
     void setUp() {
         DislikeMenu dislikeMenu = new DislikeMenu(List.of(
-                new Menu("a", Category.ASIAN),
-                new Menu("b", Category.ASIAN))
+                new Menu("못먹는_메뉴1", Category.ASIAN),
+                new Menu("못먹는_메뉴2", Category.ASIAN))
         );
         dailyMenu = new DailyMenu(dislikeMenu);
     }
@@ -107,6 +107,20 @@ class dailyMenuTest {
 
             // then
             Assertions.assertThat(exception).isInstanceOf(IllegalStateException.class);
+        }
+
+        @Test
+        void 먹지_못하는_메뉴_추가() {
+            Coach coach = new Coach("코치1");
+            dailyMenu.setCategory(DayOfWeek.MONDAY, Category.KOREAN);
+            Menu menu1 = new Menu("못먹는_메뉴1", Category.ASIAN);
+
+            // when
+            Throwable exception = Assertions.catchThrowable(
+                    () -> dailyMenu.setDailyMenu(coach, DayOfWeek.MONDAY, menu1));
+
+            // then
+            Assertions.assertThat(exception).isInstanceOf(IllegalArgumentException.class);
         }
     }
 
