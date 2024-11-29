@@ -16,4 +16,12 @@ public class Menu {
     public Category getCategory() {
         return category;
     }
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+               "name='" + name + '\'' +
+               ", category=" + category +
+               '}';
+    }
 }
