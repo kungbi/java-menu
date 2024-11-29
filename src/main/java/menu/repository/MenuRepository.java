@@ -30,16 +30,16 @@ public class MenuRepository implements Repository<Menu> {
         return List.copyOf(filteredMenus);
     }
 
-    public Optional<Menu> findByCategoryAndName(Category category, String name) {
+    public Optional<Menu> findByName(String name) {
         for (Menu menu : menus) {
-            if (menu.getCategory().equals(category) && menu.getName().equals(name)) {
+            if (menu.getName().equals(name)) {
                 return Optional.of(menu);
             }
         }
         return Optional.empty();
     }
 
-    public boolean existsByCategoryAndName(Category category, String name) {
-        return this.findByCategoryAndName(category, name).isPresent();
+    public boolean existsByName(String name) {
+        return this.findByName(name).isPresent();
     }
 }
