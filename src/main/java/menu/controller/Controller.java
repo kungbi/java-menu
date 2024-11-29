@@ -22,6 +22,7 @@ public class Controller {
     }
 
     public void run() {
+        // 입력
         Coaches coaches = retryInputUtil.getCoaches();
         for (Coach coach : coaches.getCoaches()) {
             List<Menu> dislikeMenus = retryInputUtil.getDislikeMenus(coach.getName());
@@ -29,31 +30,52 @@ public class Controller {
         }
 
         DailyMenu dailyMenu = new DailyMenu();
-        for (DayOfWeek dayOfWeek : DayOfWeek.getDaysOfWeek()) {
-            dailyMenu.setCategory(dayOfWeek, Category.getRandomCategory());
-        }
-
-        for (Coach coach : coaches.getCoaches()) {
-            for (DayOfWeek dayOfWeek : DayOfWeek.getDaysOfWeek()) {
-                Category category = dailyMenu.getCategory(dayOfWeek);
-                while (true) {
-                    try {
-                        String randomMenuInCategory = menuRepository.getRandomMenuInCategory(category);
-                        Optional<Menu> foundMenu = menuRepository.findByName(randomMenuInCategory);
-                        if (foundMenu.isEmpty()) {
-                            throw new IllegalStateException("없는 메뉴입니다.");
-                        }
-                        dailyMenu.setDailyMenu(coach, dayOfWeek, foundMenu.get());
-                        break;
-                    } catch (IllegalArgumentException error) {
-//                        OutputView.printError(error.getMessage());
-                    }
-                }
-            }
-        }
+        setCategories(dailyMenu);
+        setMenus(coaches, dailyMenu);
 
         RecommendedMenus recommendedMenus = new RecommendedMenus(dailyMenu.getCategories(), dailyMenu.getDailyMenus());
         OutputView.printRecommendedMenus(recommendedMenus);
+    }
+
+    private void setMenus(Coaches coaches, DailyMenu dailyMenu) {
+        for (Coach coach : coaches.getCoaches()) {
+            setDailyMenu(dailyMenu, coach);
+        }
+    }
+
+    private void setDailyMenu(DailyMenu dailyMenu, Coach coach) {
+        for (DayOfWeek dayOfWeek : DayOfWeek.getDaysOfWeek()) {
+            setMenuForDay(dailyMenu, coach, dayOfWeek);
+        }
+    }
+
+    private void setMenuForDay(DailyMenu dailyMenu, Coach coach, DayOfWeek dayOfWeek) {
+        Category category = dailyMenu.getCategory(dayOfWeek);
+
+        while (true) {
+            try {
+                Menu menu = getValidMenuInCategory(category);
+                dailyMenu.setDailyMenu(coach, dayOfWeek, menu);
+                break; // 성공적으로 메뉴를 설정했으면 반복 종료
+            } catch (IllegalArgumentException e) {
+                // 무시하고 반복 지속
+            }
+        }
+    }
+
+    private Menu getValidMenuInCategory(Category category) {
+        String randomMenuName = menuRepository.getRandomMenuInCategory(category);
+        Optional<Menu> foundMenu = menuRepository.findByName(randomMenuName);
+
+        // 유효한 메뉴가 없으면 예외 발생
+        return foundMenu.orElseThrow(() -> new IllegalStateException("없는 메뉴입니다."));
+    }
+
+
+    private static void setCategories(DailyMenu dailyMenu) {
+        for (DayOfWeek dayOfWeek : DayOfWeek.getDaysOfWeek()) {
+            dailyMenu.setCategory(dayOfWeek, Category.getRandomCategory());
+        }
     }
 
 }
