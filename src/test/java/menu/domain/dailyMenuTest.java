@@ -45,7 +45,7 @@ class dailyMenuTest {
     class 메뉴_추가_테스트 {
         @Test
         void 데일리_메뉴_설정() {
-            Coach coach = new Coach("코치1", new DislikeMenu(List.of()));
+            Coach coach = new Coach("코치1");
             Menu menu1 = new Menu("메뉴1", Category.ASIAN);
             Menu menu2 = new Menu("메뉴2", Category.ASIAN);
             Menu menu3 = new Menu("메뉴3", Category.JAPANESE);
@@ -76,7 +76,7 @@ class dailyMenuTest {
 
         @Test
         void 데일리_메뉴_중복된_메뉴() {
-            Coach coach = new Coach("코치1", new DislikeMenu(List.of()));
+            Coach coach = new Coach("코치1");
             Menu menu1 = new Menu("메뉴1", Category.ASIAN);
             Menu menu2 = new Menu("메뉴1", Category.ASIAN);
             dailyMenu.setCategory(DayOfWeek.MONDAY, Category.ASIAN);
@@ -93,7 +93,7 @@ class dailyMenuTest {
 
         @Test
         void 설정된_카테고리와_다른_메뉴_설정() {
-            Coach coach = new Coach("코치1", new DislikeMenu(List.of()));
+            Coach coach = new Coach("코치1");
             dailyMenu.setCategory(DayOfWeek.MONDAY, Category.KOREAN);
             Menu menu1 = new Menu("메뉴1", Category.CHINESE);
 
@@ -108,7 +108,8 @@ class dailyMenuTest {
         @Test
         void 먹지_못하는_메뉴_추가() {
             Menu dislikeMenu = new Menu("못먹는_메뉴", Category.ASIAN);
-            Coach coach = new Coach("코치1", new DislikeMenu(List.of(dislikeMenu)));
+            Coach coach = new Coach("코치1");
+            coach.setDislikeMenu(List.of(dislikeMenu));
             dailyMenu.setCategory(DayOfWeek.MONDAY, Category.KOREAN);
 
             // when
