@@ -20,4 +20,8 @@ public class Coaches {
         return coaches.size();
     }
 
+    public List<Coach> getCoaches() {
+        return List.copyOf(coaches);
+    }
+
 }

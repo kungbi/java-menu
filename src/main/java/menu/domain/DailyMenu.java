@@ -19,6 +19,7 @@ public class DailyMenu {
 
     public void setDailyMenu(Coach coach, DayOfWeek dayOfWeek, Menu menu) {
         Map<DayOfWeek, Menu> dayOfWeekMenu = dailyMenu.computeIfAbsent(coach, k -> new HashMap<>());
+
         if (dayOfWeekMenu.containsKey(dayOfWeek)) {
             throw new IllegalStateException("이미 설정된 요일입니다");
         }
@@ -40,6 +41,28 @@ public class DailyMenu {
 
     public int getCategorySize() {
         return categories.size();
+    }
+
+    public Map<DayOfWeek, Category> getCategories() {
+        return Map.copyOf(categories);
+    }
+
+    public Category getCategory(DayOfWeek dayOfWeek) {
+        if (this.categories.size() != 5) {
+            throw new IllegalStateException("모든 요일에 대한 카테고리가 설정되지 않았습니다.");
+        }
+        if (!this.categories.containsKey(dayOfWeek)) {
+            throw new IllegalStateException("카테고리가 설정되지 않는 요일입니다.");
+        }
+        return categories.get(dayOfWeek);
+    }
+
+    public Map<Coach, Map<DayOfWeek, Menu>> getDailyMenus() {
+        Map<Coach, Map<DayOfWeek, Menu>> dayOfWeekMenu = new HashMap<>();
+        for (Coach coach : dailyMenu.keySet()) {
+            dayOfWeekMenu.put(coach, this.getDailyMenu(coach));
+        }
+        return dayOfWeekMenu;
     }
 
     public Map<DayOfWeek, Menu> getDailyMenu(Coach coach) {

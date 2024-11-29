@@ -18,7 +18,7 @@ class MenuRepositoryTest {
         menuRepository.add(new Menu("d", Category.ASIAN));
 
         // when
-        Menu randomMenuInCategory = menuRepository.getRandomMenuInCategory(Category.ASIAN);
+        String randomMenuInCategory = menuRepository.getRandomMenuInCategory(Category.ASIAN);
 
         // then
         Assertions.assertThat(randomMenuInCategory).isNotNull();

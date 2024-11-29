@@ -36,6 +36,9 @@ public class InputParser {
         List<Menu> menus = new ArrayList<>();
         for (String splitInput : input.split(",")) {
             String menuName = splitInput.trim();
+            if (menuName.isEmpty() || menuName.isBlank()) {
+                return List.of();
+            }
             Optional<Menu> foundMenu = menuRepository.findByName(menuName);
             if (foundMenu.isEmpty()) {
                 throw new IllegalArgumentException("존재하지 않는 메뉴입니다.");

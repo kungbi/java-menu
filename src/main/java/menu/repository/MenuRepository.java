@@ -15,19 +15,20 @@ public class MenuRepository implements Repository<Menu> {
         this.menus.add(menu);
     }
 
-    public Menu getRandomMenuInCategory(Category category) {
-        List<Menu> menuByCategory = this.getMenuByCategory(category);
-        return Randoms.shuffle(menuByCategory).getFirst();
+    public String getRandomMenuInCategory(Category category) {
+        List<String> menuByCategory = this.getMenuByCategory(category);
+        List<String> shuffled = Randoms.shuffle(menuByCategory);
+        return shuffled.get(0);
     }
 
-    private List<Menu> getMenuByCategory(Category category) {
-        List<Menu> filteredMenus = new ArrayList<>();
+    private List<String> getMenuByCategory(Category category) {
+        List<String> filteredMenus = new ArrayList<>();
         for (Menu menu : menus) {
-            if (menu.getCategory().equals(category)) {
-                filteredMenus.add(menu);
+            if (menu.getCategory() == category) {
+                filteredMenus.add(menu.getName());
             }
         }
-        return List.copyOf(filteredMenus);
+        return filteredMenus;
     }
 
     public Optional<Menu> findByName(String name) {
