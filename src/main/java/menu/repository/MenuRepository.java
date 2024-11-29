@@ -17,8 +17,7 @@ public class MenuRepository implements Repository<Menu> {
 
     public String getRandomMenuInCategory(Category category) {
         List<String> menuByCategory = this.getMenuByCategory(category);
-        List<String> shuffled = Randoms.shuffle(menuByCategory);
-        return shuffled.get(0);
+        return Randoms.shuffle(menuByCategory).getFirst();
     }
 
     private List<String> getMenuByCategory(Category category) {

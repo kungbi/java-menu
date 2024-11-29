@@ -33,7 +33,7 @@ public class DailyMenu {
             throw new IllegalStateException("카테고리가 설정되지 않은 요일입니다");
         }
         if (this.categories.get(dayOfWeek) != menu.getCategory()) {
-            throw new IllegalStateException("설정된 카테고리와 다른 메뉴를 입력하였습니다");
+            throw new IllegalArgumentException("설정된 카테고리와 다른 메뉴를 입력하였습니다");
         }
 
         dayOfWeekMenu.put(dayOfWeek, menu);

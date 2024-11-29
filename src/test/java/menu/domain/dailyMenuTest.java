@@ -102,7 +102,7 @@ class dailyMenuTest {
                     () -> dailyMenu.setDailyMenu(coach, DayOfWeek.MONDAY, menu1));
 
             // then
-            Assertions.assertThat(exception).isInstanceOf(IllegalStateException.class);
+            Assertions.assertThat(exception).isInstanceOf(IllegalArgumentException.class);
         }
 
         @Test
