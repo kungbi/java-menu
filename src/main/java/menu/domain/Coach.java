@@ -1,5 +1,7 @@
 package menu.domain;
 
+import java.util.Objects;
+
 public class Coach {
     private final String name;
 
@@ -12,5 +14,22 @@ public class Coach {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Coach other = (Coach) obj;
+        return Objects.equals(name, other.name);
     }
 }
