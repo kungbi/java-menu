@@ -6,11 +6,6 @@ import java.util.Map;
 public class DailyMenu {
     private final Map<DayOfWeek, Category> categories = new HashMap<>();
     private final Map<Coach, Map<DayOfWeek, Menu>> dailyMenu = new HashMap<>();
-    private final DislikeMenu dislikeMenus;
-
-    public DailyMenu(DislikeMenu dislikeMenus) {
-        this.dislikeMenus = dislikeMenus;
-    }
 
     public void setCategory(DayOfWeek dayOfWeek, Category category) {
         if (this.categories.containsKey(dayOfWeek)) {
@@ -27,7 +22,7 @@ public class DailyMenu {
         if (dayOfWeekMenu.containsKey(dayOfWeek)) {
             throw new IllegalStateException("이미 설정된 요일입니다");
         }
-        if (dislikeMenus.containsMenu(menu)) {
+        if (coach.isDislike(menu)) {
             throw new IllegalArgumentException("설정할 수 없는 메뉴입니다");
         }
         if (dayOfWeekMenu.values().stream().anyMatch(value -> value.equals(menu))) {
